@@ -41,6 +41,62 @@ A full-stack app to save ChatGPT Q&A into chapter-based notes and export chapter
    npm run dev
    ```
 
+## Real env values: where to get them
+
+Use this as a practical guide for your **real** values:
+
+### 1) `DATABASE_URL`
+You get this from your PostgreSQL provider.
+
+- **Local PostgreSQL** (installed on your machine):
+  - default often looks like:
+    - `postgresql://postgres:YOUR_PASSWORD@localhost:5432/build_pdf?schema=public`
+- **Supabase / Neon / Railway / Render / Aiven**:
+  - open your project dashboard
+  - find **Connection string** / **Database URL**
+  - copy the **pooled** or **direct** Postgres URL (as recommended by provider)
+  - paste it into `DATABASE_URL`
+
+Example production value:
+```env
+DATABASE_URL="postgresql://user:pass@ep-xxx.us-east-1.aws.neon.tech/dbname?sslmode=require&schema=public"
+```
+
+### 2) `NEXTAUTH_SECRET`
+This is not provided by a third party; you generate it yourself.
+
+```bash
+openssl rand -base64 32
+# or
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
+
+Then set:
+```env
+NEXTAUTH_SECRET="<paste-generated-value>"
+```
+
+### 3) `NEXTAUTH_URL`
+This is your app’s public base URL.
+
+- Local dev:
+```env
+NEXTAUTH_URL="http://localhost:3000"
+```
+- Vercel production:
+```env
+NEXTAUTH_URL="https://your-project-name.vercel.app"
+```
+- Custom domain production:
+```env
+NEXTAUTH_URL="https://app.yourdomain.com"
+```
+
+### Quick checklist
+- Local: set all three in `.env`
+- Vercel: set all three in **Project → Settings → Environment Variables**
+- After changing env vars, redeploy/restart app
+
 ## How to find / set NextAuth keys
 For this project (credentials auth), you mainly need:
 - `NEXTAUTH_SECRET`: random secret used by NextAuth to sign/encrypt tokens.
