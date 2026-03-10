@@ -64,6 +64,17 @@ If you later add OAuth providers, you will also need provider keys (for example 
 - `GOOGLE_CLIENT_SECRET`
 These are created in the provider developer console and then added as environment variables.
 
+
+## Next.js build fix for `/api/auth/[...nextauth]`
+If Vercel build fails with:
+`Failed to collect page data for /api/auth/[...nextauth]`
+this project now forces the NextAuth route to run dynamically on Node runtime (`dynamic = 'force-dynamic'`, `runtime = 'nodejs'`) to prevent static data collection for auth handlers.
+
+Also set these environment variables in Vercel before building:
+- `NEXTAUTH_SECRET`
+- `NEXTAUTH_URL`
+- `DATABASE_URL`
+
 ## Vercel build fix for `iconv-lite` / `fontkit`
 If Vercel build fails with:
 `Module not found: Can't resolve 'iconv-lite' in .../node_modules/fontkit`

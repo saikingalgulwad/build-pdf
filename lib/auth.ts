@@ -4,7 +4,10 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { prisma } from '@/lib/prisma';
 
+const nextAuthSecret = process.env.NEXTAUTH_SECRET || 'build-fallback-secret-change-me';
+
 export const authOptions: NextAuthOptions = {
+  secret: nextAuthSecret,
   session: { strategy: 'jwt' },
   pages: { signIn: '/login' },
   providers: [
